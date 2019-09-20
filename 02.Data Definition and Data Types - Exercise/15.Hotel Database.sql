@@ -108,3 +108,66 @@ INSERT INTO Rooms ( RoomType, BedType, Rate, RoomStatus)
 VALUES		('Superior', 'Single', 250, 'Clean'),
 			('Superior', 'Soft', 350, 'Clean'),
 			('Suite', 'Family', 450, 'Dirty')
+
+
+CREATE TABLE Payments (
+Id INT IDENTITY,
+EmployeeId INT, 
+PaymentDate DATE NOT NULL,
+AccountNumber INT NOT NULL,
+FirstDateOccupied DATE NOT NULL, 
+LastDateOccupied DATE NOT NULL,
+TotalDays INT NOT NULL,
+AmountCharged DECIMAL (15,2),
+TaxRate DECIMAL(5,2) NOT NULL,
+TaxAmount DECIMAL (5,2) NOT NULL,
+PaymentTotal DECIMAL (15,2), 
+Notes NVARCHAR(MAX)
+
+CONSTRAINT PK_Payments
+PRIMARY KEY (Id)
+
+CONSTRAINT FK_Employees_Payments
+FOREIGN KEY (EmployeeId)
+REFERENCES Employees (Id),
+
+CONSTRAINT FK_Customers_Payments
+FOREIGN KEY (AccountNumber)
+REFERENCES Customers (AccountNumber)
+)
+
+INSERT INTO Payments (EmployeeId, PaymentDate, AccountNumber, FirstDateOccupied, LastDateOccupied, TotalDays, AmountCharged, TaxRate, TaxAmount, PaymentTotal)
+VALUES			(1,'2018-11-12', 1, '2005-02-05', '2011-05-18', 70, 1000, 25.20, 50, 1025.20),
+				(2,'2017-11-12', 2, '2004-02-05', '2010-05-19', 60, 10000, 78.20, 241, 10215.20),
+				(3,'2014-10-10', 3, '2002-06-05', '2012-06-21', 80, 2000, 35.20, 880, 17425.20)
+
+CREATE TABLE Occupancies (
+Id INT IDENTITY,
+EmployeeId INT, 
+DateOccupied DATE,
+AccountNumber INT,
+RoomNumber INT,
+RateApplied DECIMAL (15,2) NOT NULL,
+PhoneCharge DECIMAL (15,2), 
+Notes NVARCHAR(MAX)
+
+CONSTRAINT PK_Occupancies
+PRIMARY KEY (Id),
+
+CONSTRAINT FK_Occupancies_Employees
+FOREIGN KEY (EmployeeId)
+REFERENCES Employees (Id),
+
+CONSTRAINT FK_Occupancies_Customers
+FOREIGN KEY (AccountNumber)
+REFERENCES Customers (AccountNumber),
+
+CONSTRAINT FK_Occupancies_Rooms
+FOREIGN KEY (RoomNumber)
+REFERENCES Rooms (RoomNumber)
+)
+
+INSERT INTO Occupancies (EmployeeId,  AccountNumber, RoomNumber, RateApplied)
+VALUES	(1, 1, 1, 758.25),
+		(2, 2, 2, 668.15),
+		(3, 3, 3, 998.86)
