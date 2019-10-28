@@ -1,0 +1,3 @@
+DROP Minions
+
+DROP Towns

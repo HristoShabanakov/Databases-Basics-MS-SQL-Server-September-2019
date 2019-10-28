@@ -1,0 +1,11 @@
+CREATE TABLE Minons(
+Id INT NOT NULL,
+-- Escaping Name => [Name]
+[Name] NVARCHAR(50) NOT NULL,
+Age INT NOT NULL
+)
+
+CREATE TABLE Towns (
+Id INT NOT NULL,
+[Name] NVARCHAR(50) NOT NULL
+)
