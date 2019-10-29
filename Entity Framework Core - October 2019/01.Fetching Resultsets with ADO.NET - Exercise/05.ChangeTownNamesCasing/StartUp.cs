@@ -44,6 +44,7 @@ namespace _05.ChangeTownNamesCasing
                     else
                     {
                         Console.WriteLine($"{affectedRows} town names were affected.");
+                        PrintTownNames(connection, countryName);
                     }
                 }
             }
