@@ -44,6 +44,13 @@ namespace P03_SalesDatabase.Data
                 .IsUnicode(true);
 
                 entity
+                .Property(p => p.Description)
+                .HasMaxLength(250)
+                .IsRequired(false)
+                .IsUnicode(true)
+                .HasDefaultValue("No description");
+
+                entity
                 .Property(p => p.Quantity)
                 .IsRequired(true);
 
@@ -83,6 +90,34 @@ namespace P03_SalesDatabase.Data
                 .HasMaxLength(80)
                 .IsRequired(true)
                 .IsUnicode(true);
+            });
+
+            modelBuilder.Entity<Sale>(entity =>
+            {
+                entity.HasKey(s => s.SaleId);
+
+                entity
+                .Property(s => s.Date)
+                .IsRequired(true)
+                .HasColumnType("DATETIME2")
+                .HasDefaultValueSql("GETDATE()");
+
+                //Table Relations,One-To-Many HasForeignKey has to finish as same as HasOne property 1/2/1
+                //Many-To-One is 1/2/2
+                entity
+                .HasOne(s => s.Product)
+                .WithMany(p => p.Sales)
+                .HasForeignKey(s => s.ProductId);
+
+                entity
+                .HasOne(s => s.Customer)
+                .WithMany(c => c.Sales)
+                .HasForeignKey(s => s.CustomerId);
+
+                entity
+                .HasOne(s => s.Store)
+                .WithMany(st => st.Sales)
+                .HasForeignKey(s => s.StoreId);
             });
         }
     }
