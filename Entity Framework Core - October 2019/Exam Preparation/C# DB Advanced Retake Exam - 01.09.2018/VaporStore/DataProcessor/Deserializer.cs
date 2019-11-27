@@ -1,22 +1,27 @@
 ﻿namespace VaporStore.DataProcessor
 {
-	using System;
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Xml.Serialization;
     using Data;
     using Newtonsoft.Json;
+    using VaporStore.Data.Enums;
     using VaporStore.Data.Models;
     using VaporStore.DataProcessor.ImportDtos;
 
     public static class Deserializer
-	{
-		public static string ImportGames(VaporStoreDbContext context, string jsonString)
-		{
+    {
+        public static string ImportGames(VaporStoreDbContext context, string jsonString)
+        {
             var gamesDto = JsonConvert.DeserializeObject<ImportGameDto[]>(jsonString);
 
             var sb = new StringBuilder();
+            var games = new List<Game>();
 
             foreach (var gameDto in gamesDto)
             {
@@ -26,24 +31,197 @@
                     continue;
                 }
 
+                var game = new Game
+                {
+                    Name = gameDto.Name,
+                    Price = gameDto.Price,
+                    ReleaseDate = DateTime.ParseExact(gameDto.ReleaseDate, "yyyy-MM-dd",
+                    CultureInfo.InvariantCulture)
+                };
+
                 var developer = GetDeveloper(context, gameDto.Developer);
                 var genre = GetGenre(context, gameDto.Genre);
+
+                game.Developer = developer;
+                game.Genre = genre;
+
 
                 foreach (var currentTag in gameDto.Tags)
                 {
                     var tag = GetTag(context, currentTag);
+
+                    game.GameTags.Add(new GameTag
+                    {
+                        Game = game,
+                        Tag = tag
+                    });
                 }
+
+                games.Add(game);
+                sb.AppendLine($"Added {game.Name} ({game.Genre.Name}) with {game.GameTags.Count} tags");
             }
 
-            return "";
-		}
+            context.Games.AddRange(games);
+            context.SaveChanges();
 
-        private static object GetTag(VaporStoreDbContext context, string currentTag)
-        {
-            throw new NotImplementedException();
+            string result = sb.ToString().TrimEnd();
+
+            return result;
         }
 
-        private static object GetGenre(VaporStoreDbContext context, string gameDtogenre)
+        public static string ImportUsers(VaporStoreDbContext context, string jsonString)
+        {
+            var usersDto = JsonConvert.DeserializeObject<ImportUserDto[]>(jsonString);
+
+            var sb = new StringBuilder();
+            var users = new List<User>();
+
+
+            foreach (var userDto in usersDto)
+            {
+                //Validation check for user and his collection of cards (all 3 property of cards should be valid).
+                if (!IsValid(userDto) || !userDto.Cards.All(IsValid))
+                {
+                    sb.AppendLine("Invalid Data");
+                    continue;
+                }
+
+                bool isValidEnum = true;
+
+                foreach (var cardDto in userDto.Cards)
+                {
+                    var cardType = Enum.TryParse<CardType>(cardDto.Type, out CardType resultEnum);
+
+                    if (!cardType)
+                    {
+                        isValidEnum = false;
+                        break;
+                    }
+                }
+
+                if (!isValidEnum)
+                {
+                    sb.AppendLine("Invalid Data");
+                    continue;
+                }
+
+                var user = new User
+                {
+                    FullName = userDto.FullName,
+                    Username = userDto.Username,
+                    Age = userDto.Age,
+                    Email = userDto.Email
+                };
+
+                foreach (var cardDto in userDto.Cards)
+                {
+                    user.Cards.Add(new Card
+                    {
+                        Number = cardDto.Number,
+                        Cvc = cardDto.Cvc,
+                        Type = Enum.Parse<CardType>(cardDto.Type)
+                    });
+                }
+
+                users.Add(user);
+                sb.AppendLine($"Imported {user.Username} with {user.Cards.Count} cards");
+            }
+
+            context.Users.AddRange(users);
+            context.SaveChanges();
+
+            string result = sb.ToString().TrimEnd();
+
+            return result;
+
+        }
+
+        public static string ImportPurchases(VaporStoreDbContext context, string xmlString)
+        {
+            var xmlSerializer = new XmlSerializer(typeof(ImportPurchaseDto[]), 
+                new XmlRootAttribute("Purchases"));
+
+            var purchasesDto = (ImportPurchaseDto[])xmlSerializer.Deserialize(new StringReader(xmlString));
+
+            var sb = new StringBuilder();
+            var purchases = new List<Purchase>();
+
+            foreach (var purchaseDto in purchasesDto)
+            {
+                if (!IsValid(purchasesDto))
+                {
+                    sb.AppendLine("Invalid Data");
+                    continue;
+                }
+
+                var isValidEnum = Enum.TryParse<PurchaseType>(purchaseDto.Type, out PurchaseType purchaseType);
+
+                if(!isValidEnum)
+                {
+                    sb.AppendLine("Invalid Data");
+                    continue;
+                }
+
+                var game = context.Games.FirstOrDefault(x => x.Name == purchaseDto.Title);
+                var card = context.Cards.FirstOrDefault(x => x.Number == purchaseDto.Card);
+
+                if(game == null || card == null)
+                {
+                    sb.AppendLine("Invalid Data");
+                    continue;
+                }
+
+                var purchase = new Purchase
+                {
+                    Type = purchaseType,
+                    Date = DateTime.ParseExact(purchaseDto.Date, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                    ProductKey = purchaseDto.Key,
+                    Game = game,
+                    Card = card
+                };
+
+                purchases.Add(purchase);
+                sb.AppendLine($"Imported {purchase.Game.Name} for {purchase.Card.User.Username}");
+            }
+
+            context.Purchases.AddRange(purchases);
+            context.SaveChanges();
+
+            string result = sb.ToString().TrimEnd();
+
+            return result;
+        }
+
+        private static bool IsValid(object entity)
+        {
+            var validationContext = new ValidationContext(entity);
+            var validationResult = new List<ValidationResult>();
+
+            var isValid = Validator.TryValidateObject(entity, validationContext, validationResult, true);
+
+            return isValid;
+
+        }
+
+        private static Tag GetTag(VaporStoreDbContext context, string currentTag)
+        {
+            var tag = context.Tags.FirstOrDefault(t => t.Name == currentTag);
+
+            if (tag == null)
+            {
+                tag = new Tag
+                {
+                    Name = currentTag
+                };
+
+                context.Tags.Add(tag);
+                context.SaveChanges();
+            }
+
+            return tag;
+        }
+
+        private static Genre GetGenre(VaporStoreDbContext context, string gameDtogenre)
         {
             var genre = context.Genres.FirstOrDefault(x => x.Name == gameDtogenre);
 
@@ -61,11 +239,11 @@
             return genre;
         }
 
-        private static object GetDeveloper(VaporStoreDbContext context, string gameDtodeveloper)
+        private static Developer GetDeveloper(VaporStoreDbContext context, string gameDtodeveloper)
         {
             var developer = context.Developers.FirstOrDefault(x => x.Name == gameDtodeveloper);
 
-            if(developer == null)
+            if (developer == null)
             {
                 developer = new Developer
                 {
@@ -77,27 +255,6 @@
             }
 
             return developer;
-        }
-
-        public static string ImportUsers(VaporStoreDbContext context, string jsonString)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static string ImportPurchases(VaporStoreDbContext context, string xmlString)
-		{
-			throw new NotImplementedException();
-		}
-
-        private static bool IsValid(object entity)
-        {
-            var validationContext = new ValidationContext(entity);
-            var validationResult = new List<ValidationResult>();
-
-            var isValid = Validator.TryValidateObject(entity, validationContext, validationResult, true);
-
-            return isValid;
-
         }
     }
 }
