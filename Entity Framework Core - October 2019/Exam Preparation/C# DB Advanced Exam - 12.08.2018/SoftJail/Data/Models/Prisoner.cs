@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -44,10 +43,9 @@ namespace SoftJail.Data.Models
         public DateTime? ReleaseDate { get; set; }
 
         [Range(typeof(decimal), "0.00", "79228162514264337593543950335")]
-        public decimal Bail { get; set; }
+        public decimal? Bail { get; set; }
 
         public int? CellId { get; set; }
-
          public Cell Cell { get; set; }
 
         public ICollection<Mail> Mails { get; set; }

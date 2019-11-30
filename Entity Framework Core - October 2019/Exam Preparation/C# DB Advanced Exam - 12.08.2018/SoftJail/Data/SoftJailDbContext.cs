@@ -54,6 +54,7 @@
                 .HasForeignKey(o => o.OfficerId);
             });
             
+            
 		}
 	}
 }
