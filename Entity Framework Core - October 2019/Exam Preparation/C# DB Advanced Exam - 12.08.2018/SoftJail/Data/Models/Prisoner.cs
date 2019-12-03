@@ -30,7 +30,7 @@ namespace SoftJail.Data.Models
         public string FullName { get; set; }
 
         [Required]
-        [RegularExpression("\bThe[a-zA-Z]*+ [A-z+]+")] //^The [A-Z][a-z]+$
+        [RegularExpression("^The [A-Z][a-z]+$")] //^The [A-Z][a-z]+$
         public string Nickname { get; set; }
 
         [Required]
