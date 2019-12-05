@@ -3,8 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Xml.Serialization;
     using Cinema.Data.Models;
     using Cinema.DataProcessor.ImportDto;
     using Data;
@@ -67,7 +70,7 @@
 
             var sb = new StringBuilder();
 
-            var validHalls = new List<HallImportDto>();
+            //var validHalls = new List<Hall>();
 
             foreach (var dto in allHalls)
             {
@@ -78,11 +81,12 @@
                         Name = dto.Name,
                         Is4Dx = dto.Is4Dx,
                         Is3D = dto.Is3D,
-                        Seats = dto.Seats
                     };
 
-                    validHalls.Add(hall);
-                    sb.AppendLine($"Successfully imported {dto.Name}() with {dto.Name.Count()} seats!");
+                    context.Halls.Add(hall);
+                    AddSeatsInDatabase(context, hall.Id, dto.Seats);
+                    var projectionType = GetProjectionType(hall); // there are 4 possible scenarios because projection type is bool.
+                    sb.AppendLine(string.Format(SuccessfulImportHallSeat, dto.Name, projectionType, dto.Seats));
                 }
 
                 else
@@ -91,7 +95,6 @@
                 }
             }
 
-            context.Halls.AddRange(validHalls);
             context.SaveChanges();
 
             var result = sb.ToString().TrimEnd();
@@ -101,12 +104,81 @@
 
         public static string ImportProjections(CinemaContext context, string xmlString)
         {
-            throw new NotImplementedException();
+            var serializer = new XmlSerializer(typeof(ProjectionImportDto[]), 
+                new XmlRootAttribute("Projections"));
+
+            var allProjections = (ProjectionImportDto[])serializer.Deserialize(new StringReader(xmlString));
+
+            var sb = new StringBuilder();
+
+            //var validProjections = new List<Projection>();
+
+            foreach (var dto in allProjections)
+            {
+                var isMovieValid = context.Movies.Any(m => m.Id == dto.MovieId);
+                var isHallIdValid = context.Halls.Any(h => h.Id == dto.HallId);
+
+                if (IsValid(dto) && isMovieValid && isHallIdValid)
+                {
+                    var projection = new Projection
+                    {
+                        MovieId = dto.MovieId,
+                        HallId = dto.HallId,
+                        DateTime = DateTime.ParseExact(
+                            dto.DateTime, 
+                            "yyyy-MM-dd HH:mm:ss", 
+                            CultureInfo.InvariantCulture)
+                    };
+
+                    // in order to access Movie title prop, add the current projection into database
+                    context.Projections.Add(projection); 
+                    var dateTimeResult = projection.DateTime.ToString("MM/dd/yyyy");
+                    sb.AppendLine(string.Format(SuccessfulImportProjection, projection.Movie.Title, dateTimeResult));
+                }
+
+                else
+                {
+                    sb.AppendLine(string.Format(ErrorMessage));
+                }
+            }
+
+            //context.Projections.AddRange(validProjections);
+            context.SaveChanges();
+            var result = sb.ToString().TrimEnd();
+
+            return result;
         }
 
         public static string ImportCustomerTickets(CinemaContext context, string xmlString)
         {
             throw new NotImplementedException();
+        }
+
+        private static string GetProjectionType(Hall hall)
+        {
+            var result = "Normal";
+
+            if (hall.Is3D && hall.Is4Dx)
+                result = "4Dx/3D";
+            else if (hall.Is3D)
+                result = "3D";
+            else if (hall.Is4Dx)
+                result = "4Dx";
+
+            return result;
+        }
+
+        private static void AddSeatsInDatabase(CinemaContext context, int hallId, int seatCount)
+        {
+            var seats = new List<Seat>();
+                
+            for (int i = 0; i < seatCount; i++)
+            {
+                seats.Add(new Seat { HallId = hallId });
+            }
+
+            context.AddRange(seats);
+            context.SaveChanges();
         }
 
         private static bool IsValid(object entity)
