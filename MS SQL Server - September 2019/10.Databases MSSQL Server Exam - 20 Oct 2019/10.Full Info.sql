@@ -1,19 +1,17 @@
-SELECT CONCAT(e.FirstName, ' ', e.LastName) AS [Employee], 
-       d.[Name] AS [Department], 
-       c.[Name] AS [Category],
-	   r.[Description],
-	   FORMAT(r.OpenDate,'dd.MM.yyyy') as[OpenDate],
-	   s.Label,
-	   u.Name
+SELECT ISNULL(e.FirstName + ' ' + e.LastName, 'None') AS [Employee], 
+       ISNULL(d.[Name], 'None') AS [Department], 
+       ISNULL(c.[Name], 'None') AS [Category],
+	   ISNULL(r.[Description], 'None') AS [Description],
+	   ISNULL(FORMAT(r.OpenDate,'dd.MM.yyyy'), 'None') AS [OpenDate],
+	   ISNULL(s.[Label],'None') AS [Status],
+	   ISNULL(u.[Name], 'None') AS [User]
 FROM Reports AS r
-JOIN Employees AS e ON e.Id = r.EmployeeId
-JOIN Departments AS d ON d.Id = e.DepartmentId
-JOIN Categories AS c ON c.DepartmentId = d.Id
-JOIN [Status] AS s ON s.Id = r.StatusId
-JOIN Users AS u ON u.Id = r.Id
-ORDER BY [Employee] ,[Department], [Category], [Description],[OpenDate], u.Name  
+LEFT JOIN Employees AS e ON e.Id = r.EmployeeId
+LEFT JOIN Departments AS d ON d.Id = e.DepartmentId
+LEFT JOIN Categories AS c ON  c.Id = r.CategoryId 
+LEFT JOIN [Status] AS s ON s.Id = r.StatusId
+LEFT JOIN Users AS u ON u.Id = r.UserId
+ORDER BY e.FirstName DESC , e.LastName DESC, [Department], [Category],[Description], [OpenDate], [Status], [User]  
 
---CONCAT(e.FirstName, ' ', e.LastName)
 
---CONCAT(e.FirstName, ' ', e.LastName) AS [Employee], d.[Name], c.Name FROM
 

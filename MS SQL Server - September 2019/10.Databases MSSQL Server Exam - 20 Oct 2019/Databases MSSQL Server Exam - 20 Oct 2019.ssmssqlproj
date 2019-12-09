@@ -1,9 +1,100 @@
-<?xml version="1.0" encoding="utf-8"?>
-<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SqlWorkbenchSqlProject">
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Databases MSSQL Server Exam - 20 Oct 2019">
   <Items>
-    <LogicalFolder Name="Connections" Type="2" />
-    <LogicalFolder Name="Queries" Type="0" />
-    <LogicalFolder Name="Miscellaneous" Type="3" />
-
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items>
+        <ConnectionNode Name="SHABBY\SQLEXPRESS:SHABBY\ACER">
+          <Created>2019-10-20T07:57:30.832391+02:00</Created>
+          <Type>SQL</Type>
+          <Server>SHABBY\SQLEXPRESS</Server>
+          <UserName />
+          <Authentication>Windows Authentication</Authentication>
+          <InitialDB>WMS</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="01.DDL.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:SHABBY\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>SHABBY\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>01.DDL.sql</FullPath>
+        </FileNode>
+        <FileNode Name="02.Insert.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:SHABBY\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>SHABBY\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>02.Insert.sql</FullPath>
+        </FileNode>
+        <FileNode Name="03.Update.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:SHABBY\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>SHABBY\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>03.Update.sql</FullPath>
+        </FileNode>
+        <FileNode Name="04.Delete.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:SHABBY\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>SHABBY\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>04.Delete.sql</FullPath>
+        </FileNode>
+        <FileNode Name="05.Unassigned Reports.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:SHABBY\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>SHABBY\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>05.Unassigned Reports.sql</FullPath>
+        </FileNode>
+        <FileNode Name="06.Reports and Categories.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:SHABBY\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>SHABBY\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>06.Reports and Categories.sql</FullPath>
+        </FileNode>
+        <FileNode Name="07.Most Reported Category.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:SHABBY\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>SHABBY\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>07.Most Reported Category.sql</FullPath>
+        </FileNode>
+        <FileNode Name="08.Birthday Report.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:SHABBY\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>SHABBY\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>08.Birthday Report.sql</FullPath>
+        </FileNode>
+        <FileNode Name="09.User per Employee.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:SHABBY\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>SHABBY\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>09.User per Employee.sql</FullPath>
+        </FileNode>
+        <FileNode Name="10.Full Info.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:SHABBY\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>SHABBY\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>10.Full Info.sql</FullPath>
+        </FileNode>
+        <FileNode Name="11.Hours to Complete.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:SHABBY\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>SHABBY\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>11.Hours to Complete.sql</FullPath>
+        </FileNode>
+        <FileNode Name="12.Assign Employee.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:SHABBY\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>SHABBY\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>12.Assign Employee.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
   </Items>
 </SqlWorkbenchSqlProject>

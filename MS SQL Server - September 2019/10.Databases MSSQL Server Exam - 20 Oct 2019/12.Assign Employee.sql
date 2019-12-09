@@ -1,14 +1,27 @@
 CREATE PROCEDURE usp_AssignEmployeeToReport(@EmployeeId INT, @ReportId INT)
 AS
 BEGIN
-RETURN
+
+DECLARE @employeeDepartment INT = (SELECT e.DepartmentId FROM
+Employees AS e
+WHERE e.Id = @EmployeeId)
+
+DECLARE @reportDepartment INT = (SELECT c.DepartmentId FROM
+Reports AS r
+JOIN Categories AS c ON c.Id = r.CategoryId
+WHERE r.Id = @ReportId)
+
+IF(@employeeDepartment <> @reportDepartment)
+BEGIN
+	RAISERROR('Employee doesn''t belong to the appropriate department!', 16, 1)
+	RETURN
+END
+
+UPDATE Reports
+   SET EmployeeId = @EmployeeId
+ WHERE Id = @ReportId
+
 END
 
 
 
-SELECT e.Id, c.Id FROM Employees AS e
-JOIN Departments AS d ON d.Id = e.Id
-JOIN Reports AS r ON r.Id = e.Id
-JOIN Categories AS c on c.DepartmentId = r.Id
-WHERE e.Id = c.Id
-GROUP BY e.Id, c.Id

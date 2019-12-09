@@ -1,6 +1,7 @@
-SELECT e.FirstName, r.Id AS [Report], u.Id AS [User] FROM Employees AS e
-JOIN Reports AS r ON e.Id = r.Id
-JOIN Users AS u ON u.Id = r.UserId
-GROUP BY e.FirstName
+SELECT e.FirstName + ' ' + e.LastName AS [FullName],
+COUNT(r.[UserId]) AS [UsersCount]
+FROM Employees AS e
+LEFT JOIN Reports AS r ON r.EmployeeId = e.Id
+GROUP BY e.FirstName, e.LastName
+ORDER BY UsersCount DESC, FullName
 
---e.FirstName, r.Id AS [Report], u.Id AS [User]
