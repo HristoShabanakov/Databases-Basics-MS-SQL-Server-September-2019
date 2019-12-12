@@ -111,10 +111,9 @@
 
             var sb = new StringBuilder();
 
-            //var validProjections = new List<Projection>();
-
             foreach (var dto in allProjections)
             {
+                //Check for validation errors invalid movie or hall.
                 var isMovieValid = context.Movies.Any(m => m.Id == dto.MovieId);
                 var isHallIdValid = context.Halls.Any(h => h.Id == dto.HallId);
 
@@ -141,8 +140,7 @@
                     sb.AppendLine(string.Format(ErrorMessage));
                 }
             }
-
-            //context.Projections.AddRange(validProjections);
+           
             context.SaveChanges();
             var result = sb.ToString().TrimEnd();
 
@@ -151,7 +149,52 @@
 
         public static string ImportCustomerTickets(CinemaContext context, string xmlString)
         {
-            throw new NotImplementedException();
+            var serializer = new XmlSerializer(typeof(CustomerTicketImportDto[]),
+                new XmlRootAttribute("Customers"));
+
+            var allCustomers = (CustomerTicketImportDto[])serializer.Deserialize(new StringReader(xmlString));
+
+            var customers = new List<Customer>();
+
+            var sb = new StringBuilder();
+
+            foreach (var dto in allCustomers)
+            {
+                if(IsValid(dto))
+                {
+                    var customer = new Customer
+                    {
+                        FirstName = dto.FirstName,
+                        LastName = dto.LastName,
+                        Age = dto.Age,
+                        Balance = dto.Balance,
+                        Tickets = dto.Tickets.Select(t => new Ticket
+                        {
+                            ProjectionId = t.ProjectionId,
+                            Price = t.Price
+                        })
+                        .ToArray()
+                    };
+
+                    customers.Add(customer);
+
+                    sb.AppendLine(string.Format(SuccessfulImportCustomerTicket,
+                        customer.FirstName,
+                        customer.LastName,
+                        customer.Tickets.Count));
+                }
+
+                else
+                {
+                    sb.AppendLine(ErrorMessage);
+                }
+            }
+            context.Customers.AddRange(customers);
+            context.SaveChanges();
+
+            var result = sb.ToString().TrimEnd();
+
+            return result;
         }
 
         private static string GetProjectionType(Hall hall)
