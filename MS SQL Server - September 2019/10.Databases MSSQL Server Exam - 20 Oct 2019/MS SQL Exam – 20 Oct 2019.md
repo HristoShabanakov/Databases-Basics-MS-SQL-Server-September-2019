@@ -1,5 +1,8 @@
 
-## Create database called Service
+## <p align="center"> **Database Basics MS SQL Exam – 20 Oct 2019** </p>
+Problems description for Database Basics MSSQL Server” course at <a href="https://platform.softuni.bg/">Software University</a><br>
+Students have 4 hours to create **database** called **Service**.<br>Implement database design, perform various queries and create one user defined function and one stored procedure.
+
 ![Service Database](https://user-images.githubusercontent.com/32416999/71515020-8423b600-28a1-11ea-991d-c0c6b8dfe3b3.png)
 <br>
 |You need to create 6 tables 
@@ -78,7 +81,8 @@
 |EmployeeId | Integer from **0 to 2,147,483,647**  |Relationship with table **employees.**|
 
 
-## Problem 02 - Insert some sample data into the database.<br> Write a query to add the following records into the corresponding tables.<br> All Id's should be auto-generated. 
+## Problem 02 - Insert 
+**Insert some sample data into the database.<br> Write a query to add the following records into the corresponding tables.<br> All Id's should be auto-generated.**
 
 #### Employees
 
@@ -99,9 +103,11 @@
 |14| 2 |2015-09-07 | | Falling bricks on Str.58  |5 | 2|
 |4| 3 |2017-07-03 | 2017-07-06 | Cut off streetlight on Str.11 |1 | 1|
 
-## Problem 03 - Update the CloseDate with the current date of all reports, which don't have CloseDate.
+## Problem 03 - Update 
+**Update the CloseDate with the current date of all reports, which don't have CloseDate.**
 
-## Problem 04 - Delete all reports who have a Status 4. 
+## Problem 04 - Delete 
+**Delete all reports who have a Status 4.**
 
 ## Problem 05 - Unassigned Reports 
 **Find all reports that don't have an assigned employee.<br> Order the results by OpenDate in ascending order, then by description ascending.<br> OpenDate must be in format - 'dd-MM-yyyy'.**
@@ -146,3 +152,48 @@
 |5omarkwelleyc | Snow Removal |
 |dpennid | Dangerous Trees |
 |llankham6  | Homeless Elders |
+
+
+## Problem 09 - Users per Employee
+**Select all employees and show how many unique users each of them has served to.<br>
+Order by users count  (descending) and then by full name (ascending).**
+
+**Example:**
+
+|**FullName**|**UsersCount**|
+|---|---|
+|Bron Ledur  | 3 |
+|Adelind Benns | 2 |
+|Dick Wentworth | 2 |
+
+## Problem 10 - Full Info
+**Select all info for reports along with employee first name and last name (concataned with space), department name, category name, report description, open date, status label and name of the user.<br> Order them by first name (descending), last name (descending), department (ascending), category (ascending), description (ascending), open date (ascending), status (ascending) and user (ascending).<br>Date should be in format - dd.MM.yyyy<br>If there are empty records, replace them with 'None'.**
+
+
+**Example:**
+
+|**Employee**|**Department**|**Category**|**Description**|**OpenDate**|**Status**|**User**|
+|---|---|---|---|---|---|---|
+|Niki Stranaghan|Event Management|Sports Events|Sky Run competition on September 8|08.06.2015|Completed|Emlynn Alliberton|
+|Marlo O'Malley|Infrastructure |Streetlight|Fallen streetlight columns on Str.14 |12.09.2017|Blocked|Erhart Alpine|
+|Leonardo Shopcott|Animals Care|Animal in Danger|Parked car on green area on the sidewalk of Str.74|10.11.2016|In Progress|Jocko Gregor|
+
+## Problem 11 - Hours to Complete 
+**Create a user defined function with the name udf_HoursToComplete(@StartDate DATETIME, @EndDate DATETIME) that receives a start date and end date and must returns the total hours which has been taken for this task. If start date is null or end is null return 0.**
+
+**Example usage:**
+
+|**Query**|**TotalHours**|
+|---|---|
+|SELECT dbo.udf_HoursToComplete(OpenDate, CloseDate) AS TotalHours FROM Reports| 120 |
+
+## Problem 12 - Assign Employee
+**Create a stored procedure with the name usp_AssignEmployeeToReport(@EmployeeId INT, @ReportId INT) that receives an employee's Id and a report's Id and assigns the employee to the report only if the department of the employee and the department of the report's category are the same. Otherwise throw an exception with message: "Employee doesn't belong to the appropriate department!".**
+
+**Example usage:**
+
+|**Query**|**Response**|
+|---|---|
+|EXEC usp_AssignEmployeeToReport 30, 1 |Employee doesn't belong to the appropriate department!|
+|EXEC usp_AssignEmployeeToReport 17, 2 |(1 row affected) | 
+
