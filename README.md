@@ -1,5 +1,5 @@
-# Databases Basics MS SQL Server - September 2019
-Microsoft SQL Server
+## MS SQL Server - September 2019
+Databases basics with Microsoft SQL Server
 
 01.<a href="https://github.com/HristoShabanakov/Databases-Basics-MS-SQL-Server-September-2019/tree/master/MS%20SQL%20Server%20-%20September%202019/01.Introduction%20to%20Databases%20-%20Lab"> Introduction to Databases - Lab </a><br>
 02.<a href="https://github.com/HristoShabanakov/Databases-Basics-MS-SQL-Server-September-2019/tree/master/MS%20SQL%20Server%20-%20September%202019/02.Data%20Definition%20and%20Data%20Types%20-%20Exercise"> Data Definition and Data Types - Exercise</a> <br>
