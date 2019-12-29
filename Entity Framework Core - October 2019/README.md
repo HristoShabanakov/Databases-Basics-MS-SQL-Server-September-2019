@@ -7,4 +7,5 @@
 08.<a href="https://github.com/HristoShabanakov/Databases-Basics-MS-SQL-Server-September-2019/tree/master/Entity%20Framework%20Core%20-%20October%202019/08.Entity%20Framework%20Core%20-%20Auto%20Mapping%20Objects%20-%20Exercises"> Auto Mapping Objects - Exercise</a><br>
 09.<a href="https://github.com/HristoShabanakov/Databases-Basics-MS-SQL-Server-September-2019/tree/master/Entity%20Framework%20Core%20-%20October%202019/09.JSON%20Processing%20-%20Exercise"> JSON Processing - Exercise </a><br>
 10.<a href="https://github.com/HristoShabanakov/Databases-Basics-MS-SQL-Server-September-2019/tree/master/Entity%20Framework%20Core%20-%20October%202019/10.XML%20Processing%20-%20Exercise/CarDealer"> XML Processing </a><br>
-11.<a href="https://github.com/HristoShabanakov/Databases-Basics-MS-SQL-Server-September-2019/tree/master/Entity%20Framework%20Core%20-%20October%202019/Exam%20Preparation"> Exam Preparation </a><br>
+11.<a href="https://github.com/HristoShabanakov/Databases-Basics-MS-SQL-Server-September-2019/tree/master/Entity%20Framework%20Core%20-%20October%202019/11.Databases%20Advanced%20Exam%20-%2007.12.2019"> C# Databases Advanced Exam 07.12.2019 </a><br>
+12.<a href="https://github.com/HristoShabanakov/Databases-Basics-MS-SQL-Server-September-2019/tree/master/Entity%20Framework%20Core%20-%20October%202019/Exam%20Preparation"> Exam Preparation </a><br>
