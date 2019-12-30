@@ -3,7 +3,7 @@
  
  ![TeisterMask](https://user-images.githubusercontent.com/32416999/71554856-10aab180-2a25-11ea-992d-76f278f355d5.png)
 
-## 01. Model Definition
+## 01.<a href="https://github.com/HristoShabanakov/Databases-Basics-MS-SQL-Server-September-2019/tree/master/Entity%20Framework%20Core%20-%20October%202019/11.Databases%20Advanced%20Exam%20-%2007.12.2019/TeisterMask/Data/Models"> Model Definition </a><br>
 The application needs to store the following data:<br> 
 ## Employee<br>
 
@@ -59,7 +59,7 @@ The application needs to store the following data:<br>
 
 **Task** - **Task**. 
 
-## 02. Data Import
+## 02. <a href="https://github.com/HristoShabanakov/Databases-Basics-MS-SQL-Server-September-2019/blob/master/Entity%20Framework%20Core%20-%20October%202019/11.Databases%20Advanced%20Exam%20-%2007.12.2019/TeisterMask/DataProcessor/Deserializer.cs"> Data Import </a><br>
 
 Use the provided **JSON** and **XML** files to populate the **database** with **data**.
 
@@ -125,7 +125,7 @@ If a **task** does **not exist** in the database, **append an error message** to
 
 Upon **correct import logic**, you should have imported **30 employees** and **214 employee tasks**. 
 
-## 03. Data Export
+## 03. <a href="https://github.com/HristoShabanakov/Databases-Basics-MS-SQL-Server-September-2019/blob/master/Entity%20Framework%20Core%20-%20October%202019/11.Databases%20Advanced%20Exam%20-%2007.12.2019/TeisterMask/DataProcessor/Serializer.cs"> Data Export </a><br>
 
 **JSON Export**
 
