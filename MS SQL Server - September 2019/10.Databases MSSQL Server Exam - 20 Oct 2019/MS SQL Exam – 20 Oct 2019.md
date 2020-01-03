@@ -1,7 +1,7 @@
 
 ## <p align="center"> **Database Basics MS SQL Exam – 20 Oct 2019** </p>
-Problems description for Database Basics MSSQL Server” course at <a href="https://platform.softuni.bg/">Software University</a><br>
-Students have 4 hours to create **database** called **Service**.<br>Implement database design, perform various queries and create one user defined function and one stored procedure.
+The below description of the Database Basics MSSQL Server Exam” which is part of C# Web Developer programme at <a href="https://platform.softuni.bg/">Software University</a>.<br>
+Students have 4 hours to create **database** called **Service**.<br>Implement **database design**, perform various **queries** and create one **user defined function** and one **stored procedure**.
 
 ![Service Database](https://user-images.githubusercontent.com/32416999/71515020-8423b600-28a1-11ea-991d-c0c6b8dfe3b3.png)
 <br>
