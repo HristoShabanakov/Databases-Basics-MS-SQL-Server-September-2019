@@ -1,4 +1,7 @@
- Create a database application, using **Entity Framework Core**, using the **Code First** approach. 
+ ## <p align="center"> **C# Databases Advanced Exam - 07.12.2019** </p>
+The below description of the C# Databases Advanced Exam”, part of **C# Web Developer** programme at <a href="https://platform.softuni.bg/">Software University</a>.<br>
+ Students have four hours to 
+ create a database application, using **Entity Framework Core**, with the **Code First** approach. 
  **Design** the domain **models** and **methods** for manipulating the **data**, as described below.<br>
  
  ![TeisterMask](https://user-images.githubusercontent.com/32416999/71554856-10aab180-2a25-11ea-992d-76f278f355d5.png)
